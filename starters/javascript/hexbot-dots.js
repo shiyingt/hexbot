@@ -17,12 +17,15 @@ function start_app() {
   draw();
 
   //redraw when canvas is clicked.
-  canvas.addEventListener('click', draw);
+  //canvas.addEventListener('click', draw);
+  canvas.addEventListener('click', clearCanvas);
 }
 
 function sizeCanvas() {
   appWidth = window.innerWidth;
   appHeight = window.innerHeight;
+  //appWidth = '200 px';    //sets the size of canvas
+  //appHeight = '200 px';   //sets the size of canvas
   canvas = document.getElementById('canvas');
   ctx = NOOPBOT_SETUP_CANVAS( { canvas: canvas, bgColor:'#ffffff' });
 }
@@ -34,7 +37,8 @@ function draw() {
     count: 1000,
     width: appWidth,
     height: appHeight,
-    seed: 'FF7F50,FFD700,FF8C00',
+    //seed: 'FF7F50,FFD700,FF8C00',  //orange based
+    seed: '228B22,3CB371,808000',   //green based
   }, drawSet);
 }
 
@@ -59,3 +63,7 @@ window.onresize = function(event){
   sizeCanvas();
   draw();
 };
+
+function clearCanvas(){   //clears canvas upon clicking 
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+}
