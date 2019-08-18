@@ -3,6 +3,14 @@ const API_BASE = 'https://api.noopschallenge.com';
 function NOOPBOT_START() {
   console.log(`Noop Noop! 🤖🤖🤖🤖🤖`);
   if (window.start_app) {
+    themelistobj  = getThemeList()
+    console.log(themelistobj)
+    for (i in themelistobj){
+    console.log(JSON.stringify(i))
+    }
+    console.log('hello')
+    window.newThemeList  = themelistobj
+    themeCurrent = window.newThemeList[0];
     start_app();
   } else {
     console.error('start_app not defined');
@@ -18,6 +26,11 @@ function NOOPBOT_FETCH(options, onComplete) {
 
   if (!onComplete) {
     console.warn('onComplete not set, nothing will happen.');
+  }
+
+  if (!options.seed) {
+    console.error('seed not set');
+    return;
   }
 
   let params = [];
@@ -44,6 +57,7 @@ function NOOPBOT_SETUP_CANVAS(options) {
     return;
   }
 
+  //edit here to change canvas element's height
   let width = options.width || window.innerWidth;
   let height = options.height || window.innerHeight;
 
