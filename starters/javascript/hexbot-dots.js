@@ -8,14 +8,16 @@ let appHeight;
 var themeCount = 0;
 // var themeList = ['FF7F50,FFD700,FF8C00','228B22,3CB371,808000','EFF8E2,CECFC7,ADA8B6'];
 // var themeCurrent = 0;
+var globThemeCurrent = 0;
 
 // called by NOOPBOT on window.onload
-function start_app() {
+async function start_app() {
   // size canvas to window
   // works for first themecurrent
   
   themeCurrent = themeCurrent.substring(1)
   console.log("themeCurrent "+ themeCurrent)
+  globThemeCurrent = themeCurrent
   sizeCanvas();
   // console.log(window.newThemeList)
   // for (i=0;i<window.newThemeList.length;i++){
@@ -24,10 +26,10 @@ function start_app() {
 
   //set up a ticker to refresh page automatically.
   let speed = 300; // how often screen refreshes, in milliseconds.
-  let ticker = NOOPBOT_TICK_SETUP(draw, speed);
+  let ticker = await NOOPBOT_TICK_SETUP(draw, speed);
 
   //fire a draw event.
-  draw(themeCurrent)
+  draw()
   // draw(window.newThemeList[themeCount]);
   // canvas.addEventListener('click', clearCanvas);
 
@@ -47,8 +49,8 @@ function sizeCanvas() {
   ctx = NOOPBOT_SETUP_CANVAS({ canvas: canvas, bgColor:'#ffffff' });
 }
 
-function draw(theme) {
-  console.log(theme)
+function draw() {
+  console.log()
   //get the data!
   // console.log(newThemeList)
   NOOPBOT_FETCH({
@@ -58,7 +60,7 @@ function draw(theme) {
     height: appHeight,
     // seed: 'FF7F50,FFD700,FF8C00',  //orange based
     // seed: '228B22,3CB371,808000',   //green based
-    seed: theme,
+    seed: globThemeCurrent,
   }, drawSet);
 }
 
@@ -101,18 +103,18 @@ function resizeCanvasToDisplaySize(canvas) {
 
 function clearCanvas(){   //clears canvas upon clicking 
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  if (newThemeList[themeCount] == themeCurrent){
+  if (newThemeList[themeCount].substring(1) == globThemeCurrent){
     if (themeCount==(newThemeList.length-1)){
       themeCount=0
       themeCurrent= newThemeList[0]
     }else{
     themeCount = themeCount+1
     themeCurrent = newThemeList[themeCount] 
+    console.log(themeCurrent)
     }
   }
    //fire a draw event.
-  let speed = 300; // how often screen refreshes, in milliseconds.
-  let ticker = NOOPBOT_TICK_SETUP(draw, speed);
-   draw(window.newThemeList[themeCount]);
+   globThemeCurrent = newThemeList[themeCount].substring(1);
+   console.log("new globThemeCurrent "+ globThemeCurrent)
 }
 

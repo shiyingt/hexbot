@@ -3,13 +3,9 @@ const API_BASE = 'https://api.noopschallenge.com';
 window.themelistobj  = getThemeList()
 
 async function NOOPBOT_START() {
-  await sleep(8000)
+  // await sleep(8000)
   console.log(`Noop Noop! 🤖🤖🤖🤖🤖`);
-  if (window.start_app) {
-   checkThemeList(start_app)
-  } else {
-    console.error('start_app not defined');
-  }
+  checkThemeList(start_app)
 }
 
 async function NOOPBOT_FETCH(options, onComplete) {
