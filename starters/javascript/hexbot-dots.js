@@ -12,15 +12,23 @@ var themeCount = 0;
 // called by NOOPBOT on window.onload
 function start_app() {
   // size canvas to window
+  // works for first themecurrent
+  
+  themeCurrent = themeCurrent.substring(1)
+  console.log("themeCurrent "+ themeCurrent)
   sizeCanvas();
-  console.log(typeof(window.newThemeList))
+  // console.log(window.newThemeList)
+  // for (i=0;i<window.newThemeList.length;i++){
+  //   console.log(window.newThemeList[i])
+  // }
 
   //set up a ticker to refresh page automatically.
   let speed = 300; // how often screen refreshes, in milliseconds.
   let ticker = NOOPBOT_TICK_SETUP(draw, speed);
 
   //fire a draw event.
-  draw(window.newThemeList[themeCount]);
+  draw(themeCurrent)
+  // draw(window.newThemeList[themeCount]);
   // canvas.addEventListener('click', clearCanvas);
 
   //redraw when canvas is clicked.
@@ -40,7 +48,9 @@ function sizeCanvas() {
 }
 
 function draw(theme) {
+  console.log(theme)
   //get the data!
+  // console.log(newThemeList)
   NOOPBOT_FETCH({
     API: 'hexbot',
     count: 1000,
@@ -101,29 +111,8 @@ function clearCanvas(){   //clears canvas upon clicking
     }
   }
    //fire a draw event.
+  let speed = 300; // how often screen refreshes, in milliseconds.
+  let ticker = NOOPBOT_TICK_SETUP(draw, speed);
    draw(window.newThemeList[themeCount]);
 }
 
-
-function getThemeList(){
-  // Create a request variable and assign a new XMLHttpRequest object to it.
-  window.newThemeList = []
-  var request = new XMLHttpRequest();
-  // Open a new connection, using the GET request on the URL endpoint
-  request.open('GET', 'https://api.noopschallenge.com/hexbot?count=1000',true);
-  
-  request.onload = function () {
-  // Begin accessing JSON data here
-    var obj =JSON.parse(this.response)
-    //console.log(typeof(arr))
-    for (c=0;c<1000;c++){
-      //console.log(obj.colors[c].value)
-      window.newThemeList.push(obj.colors[c].value)
-    }
-  }
-
-  // Send request
-  request.send();
-  //return newThemeList
-  return newThemeList
-}

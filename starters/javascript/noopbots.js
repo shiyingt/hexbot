@@ -1,24 +1,19 @@
 const API_BASE = 'https://api.noopschallenge.com';
 
-function NOOPBOT_START() {
+window.themelistobj  = getThemeList()
+
+async function NOOPBOT_START() {
+  await sleep(8000)
   console.log(`Noop Noop! 🤖🤖🤖🤖🤖`);
   if (window.start_app) {
-    themelistobj  = getThemeList()
-    console.log(themelistobj)
-    for (i in themelistobj){
-    console.log(JSON.stringify(i))
-    }
-    console.log('hello')
-    window.newThemeList  = themelistobj
-    themeCurrent = window.newThemeList[0];
-    start_app();
+   checkThemeList(start_app)
   } else {
     console.error('start_app not defined');
   }
 }
 
-function NOOPBOT_FETCH(options, onComplete) {
-
+async function NOOPBOT_FETCH(options, onComplete) {
+  await sleep(8000)
   if (!options.API) {
     console.error('API not set');
     return;
@@ -100,3 +95,51 @@ function NOOPBOT_RANDOM(min, max) {
 window.onload = function (event) {
   NOOPBOT_START();
 };
+
+
+function getThemeList(){
+  // Create a request variable and assign a new XMLHttpRequest object to it.
+  newThemeList = []
+  var request = new XMLHttpRequest();
+  // Open a new connection, using the GET request on the URL endpoint
+  request.open('GET', 'https://api.noopschallenge.com/hexbot?count=1000',true);
+  
+  request.onload = function () {
+  // Begin accessing JSON data here
+    var obj =JSON.parse(this.response)
+    //console.log(typeof(arr))
+    for (c=0;c<1000;c++){
+      //console.log(obj.colors[c].value)
+      newThemeList.push(obj.colors[c].value)
+    }
+  }
+  // Send request
+  request.send();
+  //return newThemeList
+  return newThemeList
+}
+
+
+//using callback to make sure that newthemelist is generated before select themeCurrent
+//async await makses sure that timeout is done
+async function checkThemeList(start_app){
+  console.log("first")
+  await sleep(10000)
+  if (window.newThemeList.length==1000){
+    console.log(window.newThemeList.length)
+    console.log("starting app")
+    themeCurrent = window.newThemeList[0];
+    start_app()
+    console.log(themeCurrent)
+  }
+  else{
+    console.log("still trying to get full themelist")
+    await sleep(8000)
+    checkThemeList()
+  }
+}
+
+//use promises to set a timeout
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
