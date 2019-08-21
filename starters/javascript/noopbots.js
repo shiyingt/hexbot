@@ -3,13 +3,12 @@ const API_BASE = 'https://api.noopschallenge.com';
 window.themelistobj  = getThemeList()
 
 async function NOOPBOT_START() {
-  // await sleep(8000)
   console.log(`Noop Noop! 🤖🤖🤖🤖🤖`);
   checkThemeList(start_app)
 }
 
 async function NOOPBOT_FETCH(options, onComplete) {
-  await sleep(8000)
+  await sleep(1000)
   if (!options.API) {
     console.error('API not set');
     return;
@@ -116,11 +115,11 @@ function getThemeList(){
 }
 
 
-//using callback to make sure that newthemelist is generated before select themeCurrent
+//using callback to make sure that newthemelist is generated before select themeCurrent, else sleep longer
 //async await makses sure that timeout is done
-async function checkThemeList(start_app){
+async function checkThemeList(){
   console.log("first")
-  await sleep(10000)
+  await sleep(100)
   if (window.newThemeList.length==1000){
     console.log(window.newThemeList.length)
     console.log("starting app")
@@ -130,7 +129,7 @@ async function checkThemeList(start_app){
   }
   else{
     console.log("still trying to get full themelist")
-    await sleep(8000)
+    sleep(100)
     checkThemeList()
   }
 }

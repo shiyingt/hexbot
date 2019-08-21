@@ -12,17 +12,13 @@ var globThemeCurrent = 0;
 
 // called by NOOPBOT on window.onload
 async function start_app() {
-  // size canvas to window
-  // works for first themecurrent
   
+  // removes hash for themeCurrent
   themeCurrent = themeCurrent.substring(1)
   console.log("themeCurrent "+ themeCurrent)
   globThemeCurrent = themeCurrent
+  // size canvas to window
   sizeCanvas();
-  // console.log(window.newThemeList)
-  // for (i=0;i<window.newThemeList.length;i++){
-  //   console.log(window.newThemeList[i])
-  // }
 
   //set up a ticker to refresh page automatically.
   let speed = 300; // how often screen refreshes, in milliseconds.
@@ -30,11 +26,8 @@ async function start_app() {
 
   //fire a draw event.
   draw()
-  // draw(window.newThemeList[themeCount]);
-  // canvas.addEventListener('click', clearCanvas);
 
-  //redraw when canvas is clicked.
-  // canvas.addEventListener('click', draw);
+  //edit globThemeCurrent when button is clicked.
   button = document.getElementById('button');
   button.addEventListener('click', clearCanvas);
 
